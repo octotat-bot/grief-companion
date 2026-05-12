@@ -1,0 +1,42 @@
+[
+  {
+    "id": "cond_001", "type": "condolence", "relationship": "colleague", "tone": "formal", "cultural_context": "neutral",
+    "text": "I was deeply saddened to hear about the passing of your mother. Words feel inadequate at a time like this, but please know that our entire team is thinking of you. She raised someone who brings such warmth and dedication to everything they do — that is a testament to who she was. Please take all the time you need. We are here for you whenever you are ready.",
+    "tags": ["loss", "parent", "workplace", "formal"]
+  },
+  {
+    "id": "cond_002", "type": "condolence", "relationship": "friend", "tone": "warm", "cultural_context": "neutral",
+    "text": "I am so heartbroken for you. I know how much your dad meant to you and how close you two were. Please don't worry about anything else right now; just focus on yourself and your family. I'm dropping off some food on Tuesday so you don't have to cook, but there's no need to see me if you're not up for it. I love you and I'm always here.",
+    "tags": ["loss", "parent", "friend", "warm"]
+  },
+  {
+    "id": "cond_003", "type": "condolence", "relationship": "close_friend", "tone": "heartfelt", "cultural_context": "neutral",
+    "text": "There are just no words for this kind of loss. I am so incredibly sorry. Your brother was a light in this world, and I will always cherish the memories of us staying up late talking on the porch. I'm holding you close to my heart right now. I will be by your side through all of this, however you need me. You are not alone.",
+    "tags": ["loss", "sibling", "close_friend", "heartfelt"]
+  },
+  {
+    "id": "cond_004", "type": "condolence", "relationship": "acquaintance", "tone": "brief", "cultural_context": "neutral",
+    "text": "I was so sorry to hear the sad news about your partner. Please accept my deepest condolences. Wishing you strength and peace during this difficult time.",
+    "tags": ["loss", "partner", "acquaintance", "brief"]
+  },
+  {
+    "id": "cond_005", "type": "condolence", "relationship": "family", "tone": "warm", "cultural_context": "neutral",
+    "text": "I am devastated by the loss of Aunt Sarah. She had the most infectious laugh and always made everyone feel welcome in her home. The family won't be the same without her. We are sending all our love your way and will see you at the service.",
+    "tags": ["loss", "aunt", "family", "warm"]
+  },
+  {
+    "id": "cond_006", "type": "condolence", "relationship": "colleague", "tone": "warm", "cultural_context": "neutral",
+    "text": "I am so sorry for your loss. I remember you sharing stories about your husband's love for hiking; he sounded like a truly wonderful person. Please let me know if there's anything I can take off your plate at work. Thinking of you and your family.",
+    "tags": ["loss", "spouse", "colleague", "warm"]
+  },
+  {
+    "id": "cond_007", "type": "condolence", "relationship": "partner", "tone": "heartfelt", "cultural_context": "neutral",
+    "text": "My heart breaks with yours. I know I can't take the pain away, but I promise to hold your hand through every moment of this grief. Your mother was amazing, and she lives on in the beautiful way you care for others. I am here for you, today and always.",
+    "tags": ["loss", "parent", "partner", "heartfelt"]
+  },
+  {
+    "id": "cond_008", "type": "condolence", "relationship": "acquaintance", "tone": "formal", "cultural_context": "neutral",
+    "text": "Please accept my sincere condolences on the passing of your sibling. My thoughts are with you and your family during this profound time of sorrow.",
+    "tags": ["loss", "sibling", "acquaintance", "formal"]
+  }
+]

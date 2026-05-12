@@ -1,0 +1,42 @@
+[
+  {
+    "id": "apol_001", "type": "apology", "relationship": "friend", "tone": "warm", "cultural_context": "neutral",
+    "text": "I am so sorry for snapping at you earlier. I was feeling overwhelmed and took it out on you, which was completely unfair. You didn't deserve that. I value our friendship so much and I will do better at managing my stress. Let's talk when you're ready.",
+    "tags": ["apology", "conflict", "friend", "warm"]
+  },
+  {
+    "id": "apol_002", "type": "apology", "relationship": "colleague", "tone": "formal", "cultural_context": "neutral",
+    "text": "I want to sincerely apologize for missing the deadline on the quarterly report. I understand this caused a delay for the entire team. I have implemented a new tracking system to ensure this does not happen again. Thank you for your patience.",
+    "tags": ["apology", "work", "colleague", "formal"]
+  },
+  {
+    "id": "apol_003", "type": "apology", "relationship": "close_friend", "tone": "heartfelt", "cultural_context": "neutral",
+    "text": "I am deeply sorry for how I acted at the party. I betrayed your trust, and I feel terrible for hurting you. I know an apology doesn't fix things instantly, but I want you to know I am reflecting on my behavior and I am committed to earning your trust back, however long that takes.",
+    "tags": ["apology", "betrayal", "close_friend", "heartfelt"]
+  },
+  {
+    "id": "apol_004", "type": "apology", "relationship": "family", "tone": "warm", "cultural_context": "neutral",
+    "text": "I'm writing to say I'm sorry for the argument we had on Thanksgiving. I let my emotions get the better of me and said things I regret. Family is the most important thing to me, and I hate that there's tension between us. I love you, and I hope we can move past this.",
+    "tags": ["apology", "argument", "family", "warm"]
+  },
+  {
+    "id": "apol_005", "type": "apology", "relationship": "partner", "tone": "heartfelt", "cultural_context": "neutral",
+    "text": "I am so sorry for not being there for you when you needed me the most. I was selfish and wrapped up in my own world. You are my priority, and I failed to show that. I promise to be more present and supportive moving forward. I love you so much.",
+    "tags": ["apology", "neglect", "partner", "heartfelt"]
+  },
+  {
+    "id": "apol_006", "type": "apology", "relationship": "acquaintance", "tone": "brief", "cultural_context": "neutral",
+    "text": "I'm so sorry for cancelling our coffee meetup at the last minute. Something urgent came up. I hope we can reschedule soon.",
+    "tags": ["apology", "cancellation", "acquaintance", "brief"]
+  },
+  {
+    "id": "apol_007", "type": "apology", "relationship": "friend", "tone": "brief", "cultural_context": "neutral",
+    "text": "Hey, I completely forgot about your birthday yesterday and I feel awful! I am so sorry. Happy belated birthday, let me treat you to dinner this week to make up for it.",
+    "tags": ["apology", "forgot_date", "friend", "brief"]
+  },
+  {
+    "id": "apol_008", "type": "apology", "relationship": "colleague", "tone": "warm", "cultural_context": "neutral",
+    "text": "I wanted to apologize for the miscommunication regarding the client presentation. I should have clarified the roles earlier. I'll make sure we are aligned on the next project. Thanks for covering for me.",
+    "tags": ["apology", "miscommunication", "colleague", "warm"]
+  }
+]

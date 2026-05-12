@@ -1,0 +1,42 @@
+[
+  {
+    "id": "recon_001", "type": "reconnection", "relationship": "friend", "tone": "warm", "cultural_context": "neutral",
+    "text": "Hi! It has been way too long. I was just thinking about that road trip we took to the coast and it made me smile. I'd love to catch up and hear how you're doing, if you're open to it. Let me know!",
+    "tags": ["distance", "friend", "warm"]
+  },
+  {
+    "id": "recon_002", "type": "reconnection", "relationship": "family", "tone": "heartfelt", "cultural_context": "neutral",
+    "text": "I know it's been years since we last spoke, and a lot has happened. I've been doing a lot of reflecting recently, and I realize how much I miss having my sister in my life. I'm ready to listen and talk whenever you are. No pressure.",
+    "tags": ["estrangement", "sibling", "heartfelt"]
+  },
+  {
+    "id": "recon_003", "type": "reconnection", "relationship": "colleague", "tone": "formal", "cultural_context": "neutral",
+    "text": "Hello, I hope you have been well since we last worked together at the agency. I am currently exploring new opportunities in the field and would love to hear about your recent experiences. Would you be open to a brief chat next week?",
+    "tags": ["networking", "colleague", "formal"]
+  },
+  {
+    "id": "recon_004", "type": "reconnection", "relationship": "close_friend", "tone": "heartfelt", "cultural_context": "neutral",
+    "text": "I am so sorry we drifted apart. Life got overwhelming for me, but that doesn't excuse my absence. You were always such an important person to me, and I miss you constantly. If you're willing, I'd love to try and rebuild our friendship.",
+    "tags": ["distance", "regret", "close_friend", "heartfelt"]
+  },
+  {
+    "id": "recon_005", "type": "reconnection", "relationship": "acquaintance", "tone": "brief", "cultural_context": "neutral",
+    "text": "Hi, I just saw your post about your new book—congratulations! It's been a while, but I wanted to send my best wishes. Hope you're doing great.",
+    "tags": ["congratulations", "acquaintance", "brief"]
+  },
+  {
+    "id": "recon_006", "type": "reconnection", "relationship": "partner", "tone": "heartfelt", "cultural_context": "neutral",
+    "text": "I know we haven't spoken since the breakup, and I want to respect your boundaries. I just wanted to reach out and say I hope you are healing and finding happiness. I still think of you warmly.",
+    "tags": ["ex_partner", "closure", "partner", "heartfelt"]
+  },
+  {
+    "id": "recon_007", "type": "reconnection", "relationship": "family", "tone": "warm", "cultural_context": "neutral",
+    "text": "Hey cousin, I was looking through old family photo albums today and found some great pictures of us as kids. It made me realize how long it's been! Let's get lunch soon and catch up properly.",
+    "tags": ["nostalgia", "family", "warm"]
+  },
+  {
+    "id": "recon_008", "type": "reconnection", "relationship": "friend", "tone": "brief", "cultural_context": "neutral",
+    "text": "Hey! Long time no see. I'm going to be in your city next weekend for work. Would you have time to grab a coffee? Let me know!",
+    "tags": ["travel", "friend", "brief"]
+  }
+]

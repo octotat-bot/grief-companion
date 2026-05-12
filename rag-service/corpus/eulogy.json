@@ -1,0 +1,42 @@
+[
+  {
+    "id": "eulo_001", "type": "eulogy", "relationship": "family", "tone": "heartfelt", "cultural_context": "neutral",
+    "text": "My grandfather was a man of few words, but his actions spoke volumes. He showed his love by fixing our broken bicycles, by teaching us how to fish, and by always being there in the quiet moments. He built a foundation for our family that will endure long after today. We will miss him terribly.",
+    "tags": ["grandparent", "tribute", "family", "heartfelt"]
+  },
+  {
+    "id": "eulo_002", "type": "eulogy", "relationship": "colleague", "tone": "formal", "cultural_context": "neutral",
+    "text": "We gather today to honor the memory of a remarkable colleague and mentor. She brought not only sharp intellect to her work but also immense kindness. She never hesitated to stay late to help a junior team member. Her legacy is woven into the very fabric of our organization.",
+    "tags": ["mentor", "work", "colleague", "formal"]
+  },
+  {
+    "id": "eulo_003", "type": "eulogy", "relationship": "friend", "tone": "warm", "cultural_context": "neutral",
+    "text": "If you knew Dave, you knew his laugh. It was loud, booming, and completely contagious. He lived life with an enthusiasm that most of us only wish we had. He was the guy who would drop everything to help you move on a Sunday. The world is a little quieter without him, but his joy will echo in our memories.",
+    "tags": ["humor", "joy", "friend", "warm"]
+  },
+  {
+    "id": "eulo_004", "type": "eulogy", "relationship": "close_friend", "tone": "heartfelt", "cultural_context": "neutral",
+    "text": "Sarah was my safe harbor. For twenty years, she was the first person I called with good news, and the first person I called when my world was falling apart. She had this extraordinary ability to make you feel completely seen and understood. I am a better person simply because she loved me.",
+    "tags": ["soulmate", "best_friend", "close_friend", "heartfelt"]
+  },
+  {
+    "id": "eulo_005", "type": "eulogy", "relationship": "family", "tone": "warm", "cultural_context": "neutral",
+    "text": "Mom was the glue that held us together. She didn't have an easy life, but she never let that harden her heart. She taught us resilience, she taught us forgiveness, and above all, she taught us how to love fiercely. Her spirit lives on in every meal we share and every story we tell.",
+    "tags": ["mother", "strength", "family", "warm"]
+  },
+  {
+    "id": "eulo_006", "type": "eulogy", "relationship": "partner", "tone": "heartfelt", "cultural_context": "neutral",
+    "text": "He was the love of my life, my partner in every adventure. I don't know how to navigate this world without him, but I know he would want me to keep going. He brought light to my darkest days and gave me a lifetime of love in the years we had together. Rest in peace, my love.",
+    "tags": ["spouse", "grief", "partner", "heartfelt"]
+  },
+  {
+    "id": "eulo_007", "type": "eulogy", "relationship": "acquaintance", "tone": "brief", "cultural_context": "neutral",
+    "text": "Though I only knew Mr. Henderson from our daily walks in the park, his gentle spirit and friendly waves left a lasting impression. He will be deeply missed by the entire neighborhood.",
+    "tags": ["neighbor", "tribute", "acquaintance", "brief"]
+  },
+  {
+    "id": "eulo_008", "type": "eulogy", "relationship": "friend", "tone": "warm", "cultural_context": "neutral",
+    "text": "We are here to celebrate a beautiful life. She had a passion for art, for nature, and for helping others. She taught us to slow down and appreciate the small things. Let us carry her spirit forward by living as fully as she did.",
+    "tags": ["celebration", "nature", "friend", "warm"]
+  }
+]

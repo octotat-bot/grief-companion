@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-base:     #111009;
+  --bg-surface:  #18160f;
+  --bg-card:     #201d14;
+  --bg-hover:    #2a261a;
+  --text-primary:  #e8e2d4;
+  --text-secondary:#9e9888;
+  --text-tertiary: #5c5848;
+  --gold:        #c8a84b;
+  --gold-subtle: rgba(200,168,75,0.10);
+  --gold-line:   rgba(200,168,75,0.28);
+  --border:      rgba(200,168,75,0.10);
+  --border-mid:  rgba(200,168,75,0.20);
+  --border-gold: rgba(200,168,75,0.55);
+  --error:       #8b4040;
+  --success:     #3d7a52;
+  --divider:     rgba(200,168,75,0.15);
+  --font-display:'Cormorant Garamond', Georgia, serif;
+  --font-ui:     'DM Mono', 'Courier New', monospace;
+  --topbar-h:    48px;
+  --statusbar-h: 36px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; -webkit-font-smoothing: antialiased; }
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  height: 100vh;
+  overflow: hidden; /* THE KEY RULE — no page scroll ever */
+}
+
+/* ── App shell ── */
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Scrollbar — hidden but functional for internal panel scroll ── */
+.scrollable { overflow-y: auto; }
+.scrollable::-webkit-scrollbar { width: 3px; }
+.scrollable::-webkit-scrollbar-track { background: transparent; }
+.scrollable::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 2px; }
+
+/* ── Typography ── */
+.ui-label {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.ui-label-gold { color: var(--gold); }
+
+/* ── Gold left-border accent ── */
+.gold-bar {
+  border-left: 1.5px solid var(--gold-line);
+  padding-left: 0.85rem;
+}
+
+/* ── Selection pill buttons ── */
+.sel-pill {
+  font-family: var(--font-ui);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-align: left;
+  line-height: 1.4;
+}
+.sel-pill:hover {
+  border-color: var(--border-mid);
+  color: var(--text-secondary);
+  background: var(--gold-subtle);
+}
+.sel-pill.active {
+  border-color: var(--border-gold);
+  color: var(--gold);
+  background: var(--gold-subtle);
+}
+
+/* ── Primary button (gold seal) ── */
+.btn-primary {
+  font-family: var(--font-ui);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--gold);
+  color: var(--bg-base);
+  border: none;
+  border-radius: 2px;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 400;
+}
+.btn-primary:hover { background: #d9bc60; transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+.btn-primary:disabled { background: var(--bg-card); color: var(--text-tertiary); cursor: not-allowed; transform: none; }
+
+/* ── Ghost button ── */
+.btn-ghost {
+  font-family: var(--font-ui);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--text-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+.btn-ghost:hover { border-color: var(--border-gold); color: var(--gold); }
+
+/* ── Inputs & textareas ── */
+.field {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.65rem 0.85rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.18s;
+  resize: none;
+}
+.field::placeholder { color: var(--text-tertiary); font-style: italic; }
+.field:focus { border-color: var(--border-gold); }
+
+/* ── Letter paper (draft output) ── */
+.letter-paper {
+  background: #f8f4ed;
+  color: #1a1510;
+  border-left: 3px solid var(--gold);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.85;
+  padding: 1.75rem 1.75rem 1.75rem 2rem;
+  border-radius: 2px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes spin   { to { transform: rotate(360deg); } }
+
+.fade-up { animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+.fade-in { animation: fadeIn 0.35s ease both; }
+
+.delay-1 { animation-delay: 0.08s; }
+.delay-2 { animation-delay: 0.16s; }
+.delay-3 { animation-delay: 0.24s; }
+.delay-4 { animation-delay: 0.32s; }
+
+/* ── Cursor ── */
+.cursor-blink {
+  display: inline-block; width: 1.5px; height: 1em;
+  background: var(--gold); margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+
+/* ── Selection ── */
+::selection { background: rgba(200,168,75,0.18); color: var(--text-primary); }

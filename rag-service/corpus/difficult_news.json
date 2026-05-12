@@ -1,0 +1,42 @@
+[
+  {
+    "id": "diff_001", "type": "difficult_news", "relationship": "family", "tone": "heartfelt", "cultural_context": "neutral",
+    "text": "I have some hard news to share. The doctor called today with the test results, and it's not what we hoped for. I know this is scary to hear, but we are going to face this together as a family. We will talk more when you get home.",
+    "tags": ["health", "diagnosis", "family", "heartfelt"]
+  },
+  {
+    "id": "diff_002", "type": "difficult_news", "relationship": "colleague", "tone": "formal", "cultural_context": "neutral",
+    "text": "I am writing to share that due to the recent restructuring, your role has unfortunately been impacted. This was an incredibly difficult decision and is in no way a reflection of your outstanding work over the past two years. HR will be in touch with the severance details.",
+    "tags": ["work", "layoff", "colleague", "formal"]
+  },
+  {
+    "id": "diff_003", "type": "difficult_news", "relationship": "friend", "tone": "warm", "cultural_context": "neutral",
+    "text": "I didn't want to tell you this over text, but I haven't been able to reach you. I wanted to let you know that my dog, Buster, passed away this morning. I know how much you loved him too. I'm taking a few days offline to process.",
+    "tags": ["pet_loss", "friend", "warm"]
+  },
+  {
+    "id": "diff_004", "type": "difficult_news", "relationship": "partner", "tone": "heartfelt", "cultural_context": "neutral",
+    "text": "This is the hardest thing I've ever had to write. I have realized that we are heading in different directions, and I don't think we should stay together. I care for you deeply, but I know this isn't right for either of us anymore. I'm so sorry for the pain this causes.",
+    "tags": ["breakup", "partner", "heartfelt"]
+  },
+  {
+    "id": "diff_005", "type": "difficult_news", "relationship": "acquaintance", "tone": "formal", "cultural_context": "neutral",
+    "text": "I am writing to inform you that our community center will be closing permanently at the end of the month due to funding shortages. Thank you for your support over the years.",
+    "tags": ["community", "closure", "acquaintance", "formal"]
+  },
+  {
+    "id": "diff_006", "type": "difficult_news", "relationship": "friend", "tone": "brief", "cultural_context": "neutral",
+    "text": "Hey, I have some tough news. I just found out I lost my job today. I'm feeling pretty shell-shocked right now and might not be very responsive, but I wanted you to know.",
+    "tags": ["job_loss", "friend", "brief"]
+  },
+  {
+    "id": "diff_007", "type": "difficult_news", "relationship": "family", "tone": "warm", "cultural_context": "neutral",
+    "text": "I wanted to let you know that I won't be able to make it to the family reunion this year. I've been struggling with my mental health lately and need to prioritize my recovery right now. I hope you all understand and have a wonderful time together.",
+    "tags": ["mental_health", "cancellation", "family", "warm"]
+  },
+  {
+    "id": "diff_008", "type": "difficult_news", "relationship": "close_friend", "tone": "heartfelt", "cultural_context": "neutral",
+    "text": "I need to share something difficult. My financial situation has taken a major hit, and I won't be able to be a bridesmaid in your wedding. I am so devastated to miss out, but I simply cannot afford the expenses. I love you and support you so much.",
+    "tags": ["finances", "cancellation", "close_friend", "heartfelt"]
+  }
+]
