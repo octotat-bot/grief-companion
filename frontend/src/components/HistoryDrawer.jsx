@@ -59,7 +59,7 @@ export default function HistoryDrawer({ onClose }) {
                   <span className="ui-label" style={{ color: 'var(--gold)', display: 'block', marginBottom: '0.1rem' }}>
                     {d.userNote || d.formInput?.situation?.replace('_', ' ')}
                   </span>
-                  <span className="ui-label" style={{ opacity: 0.4 }}>
+                  <span className="ui-label" style={{ opacity: 0.6, color: 'var(--text-secondary)' }}>
                     {d.formInput?.relationship} · {d.formInput?.tone} · {new Date(d.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
                   </span>
                 </div>
@@ -78,9 +78,10 @@ export default function HistoryDrawer({ onClose }) {
                 <p style={{
                   fontFamily: 'var(--font-display)', fontStyle: 'italic',
                   fontSize: expanded === d._id ? '0.9rem' : '0.82rem',
-                  color: 'var(--text-tertiary)', lineHeight: '1.65',
+                  color: expanded === d._id ? 'var(--text-secondary)' : 'var(--text-tertiary)', lineHeight: '1.65',
                   whiteSpace: expanded === d._id ? 'pre-wrap' : 'nowrap',
-                  overflow: 'hidden', textOverflow: expanded === d._id ? 'unset' : 'ellipsis'
+                  overflow: 'hidden', textOverflow: expanded === d._id ? 'unset' : 'ellipsis',
+                  marginTop: '0.25rem'
                 }}>
                   {d.editedDraft || d.draft}
                 </p>

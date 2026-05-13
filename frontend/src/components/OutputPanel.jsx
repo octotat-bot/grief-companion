@@ -56,10 +56,10 @@ export default function OutputPanel({ result, onReset, onSave }) {
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 300, fontSize: '1.5rem', color: 'var(--parch)' }}>Your Letter</h2>
         </div>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button onClick={editing ? handleDoneEditing : () => setEditing(true)} className="ghost-btn" style={{ padding: '0.5rem 0.85rem' }}>
+          <button onClick={editing ? handleDoneEditing : () => setEditing(true)} className="btn-ghost" style={{ padding: '0.5rem 0.85rem' }}>
             {editing ? 'Done' : 'Edit'}
           </button>
-          <button onClick={copy} className="ghost-btn" style={{ padding: '0.5rem 0.85rem' }}>
+          <button onClick={copy} className="btn-ghost" style={{ padding: '0.5rem 0.85rem' }}>
             {copied ? '✓' : 'Copy'}
           </button>
         </div>
@@ -137,10 +137,10 @@ export default function OutputPanel({ result, onReset, onSave }) {
       <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
         {!saved ? (
           <>
-            <button onClick={() => setShowNote(v => !v)} className="ghost-btn" style={{ flexShrink: 0 }}>
+            <button onClick={() => setShowNote(v => !v)} className="btn-ghost" style={{ flexShrink: 0 }}>
               {showNote ? '−' : '+'} Label
             </button>
-            <button onClick={handleSave} disabled={!result.draftId} className="seal-btn" style={{ flex: 1, padding: '0.85rem' }}>
+            <button onClick={handleSave} disabled={!result.draftId} className="btn-primary" style={{ flex: 1, padding: '0.85rem' }}>
               {result.draftId ? 'Save Draft' : 'Save unavailable'}
             </button>
           </>
@@ -149,7 +149,7 @@ export default function OutputPanel({ result, onReset, onSave }) {
             <span className="type-label" style={{ color: 'var(--success)' }}>✓ Draft saved</span>
           </div>
         )}
-        <button onClick={onReset} className="ghost-btn">New letter</button>
+        <button onClick={onReset} className="btn-ghost">New letter</button>
       </div>
     </div>
   );
