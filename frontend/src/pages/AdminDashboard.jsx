@@ -1,5 +1,5 @@
-// /admin route — analytics dashboard
-// Private Letter UI Redesignimport React, { useState, useEffect } from 'react';
+// Private Letter UI Redesign
+import React, { useState, useEffect } from 'react';
 import Statusbar from '../components/Statusbar';
 
 const COLORS = {

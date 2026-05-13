@@ -17,6 +17,7 @@ const errorHandler = require('./middleware/errorHandler');
 const analyticsRoute = require('./routes/analytics');
 const refineRoute = require('./routes/refine');
 const feedbackRoute = require('./routes/feedback');
+const sessionRoute = require('./routes/session');
 
 const app = express();
 const PORT = 3001;
@@ -38,6 +39,7 @@ app.use('/api/history', historyRoute);
 app.use('/api/analytics', analyticsRoute);
 app.use('/api/refine', refineRoute);
 app.use('/api/feedback', feedbackRoute);
+app.use('/api/session', sessionRoute);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
