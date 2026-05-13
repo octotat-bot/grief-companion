@@ -10,13 +10,9 @@ export default function UserMenu() {
   };
 
   const menuStyle = {
-    position: 'absolute',
-    top: '1.25rem',
-    left: '1.25rem',
     display: 'flex',
     alignItems: 'center',
     gap: '1rem',
-    zIndex: 100,
   };
 
   const labelStyle = {
@@ -29,9 +25,9 @@ export default function UserMenu() {
   if (!user) {
     return (
       <div style={menuStyle} className="fade-in">
-        <a href="/auth" style={{ ...labelStyle, color: 'var(--parch-ghost)', textDecoration: 'none', transition: 'color 0.2s', padding: '0.5rem' }}
+        <a href="/auth" style={{ ...labelStyle, color: 'var(--text-tertiary)', textDecoration: 'none', transition: 'color 0.2s', padding: '0.5rem' }}
            onMouseEnter={e => e.target.style.color = 'var(--gold)'}
-           onMouseLeave={e => e.target.style.color = 'var(--parch-ghost)'}>
+           onMouseLeave={e => e.target.style.color = 'var(--text-tertiary)'}>
           Sign In / Create Account
         </a>
       </div>
@@ -40,15 +36,15 @@ export default function UserMenu() {
 
   return (
     <div style={menuStyle} className="fade-in">
-      <a href="/profile" style={{ ...labelStyle, color: 'var(--parch)', textDecoration: 'none', transition: 'color 0.2s', padding: '0.5rem' }}
+      <a href="/profile" style={{ ...labelStyle, color: 'var(--text-primary)', textDecoration: 'none', transition: 'color 0.2s', padding: '0.5rem' }}
          onMouseEnter={e => e.target.style.color = 'var(--gold)'}
-         onMouseLeave={e => e.target.style.color = 'var(--parch)'}>
+         onMouseLeave={e => e.target.style.color = 'var(--text-primary)'}>
         {user.name || user.email}
       </a>
-      <div style={{ width: '1px', height: '12px', background: 'var(--ink-border)' }} />
-      <button onClick={handleLogout} style={{ ...labelStyle, background: 'none', border: 'none', color: 'var(--parch-ghost)', cursor: 'pointer', transition: 'color 0.2s', padding: '0.5rem' }}
+      <div style={{ width: '1px', height: '12px', background: 'var(--divider)' }} />
+      <button onClick={handleLogout} style={{ ...labelStyle, background: 'none', border: 'none', color: 'var(--text-tertiary)', cursor: 'pointer', transition: 'color 0.2s', padding: '0.5rem' }}
               onMouseEnter={e => e.target.style.color = 'var(--error)'}
-              onMouseLeave={e => e.target.style.color = 'var(--parch-ghost)'}>
+              onMouseLeave={e => e.target.style.color = 'var(--text-tertiary)'}>
         Sign Out
       </button>
     </div>

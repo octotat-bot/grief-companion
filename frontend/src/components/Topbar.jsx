@@ -2,6 +2,7 @@
 // Replaces the old centered header inside the main container.
 
 import React from 'react';
+import UserMenu from './UserMenu';
 
 export default function Topbar({ onHistoryOpen }) {
   return (
@@ -28,13 +29,17 @@ export default function Topbar({ onHistoryOpen }) {
       </div>
 
       {/* Right actions */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-        <button onClick={onHistoryOpen} className="btn-ghost" style={{ padding: '0.4rem 0.85rem' }}>
-          Archive
-        </button>
-        <a href="/admin" className="btn-ghost" style={{ padding: '0.4rem 0.85rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}>
-          Admin
-        </a>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+        <UserMenu />
+        <div style={{ width: '1px', height: '16px', background: 'var(--divider)' }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <button onClick={onHistoryOpen} className="btn-ghost" style={{ padding: '0.4rem 0.85rem' }}>
+            Archive
+          </button>
+          <a href="/admin" className="btn-ghost" style={{ padding: '0.4rem 0.85rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center' }}>
+            Admin
+          </a>
+        </div>
       </div>
     </div>
   );

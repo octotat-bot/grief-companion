@@ -99,12 +99,20 @@ function MainApp() {
   );
 }
 
+import GlobalLoader from './components/GlobalLoader';
+
+import ProfilePage from './pages/ProfilePage';
+
 export default function App() {
   return (
-    <Routes>
+    <>
+      <GlobalLoader />
+      <Routes>
       <Route path="/" element={<MainApp />} />
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/auth" element={<AuthPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
     </Routes>
+    </>
   );
 }
