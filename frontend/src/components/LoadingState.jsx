@@ -21,7 +21,7 @@ export default function LoadingState({ streamingText, statusMessage }) {
 
   return (
     <div className="fade-in" style={{
-      flex: 1, 
+      height: '100%', 
       display: 'flex', 
       flexDirection: 'column',
       justifyContent: streamingText ? 'flex-start' : 'center',
@@ -30,6 +30,7 @@ export default function LoadingState({ streamingText, statusMessage }) {
       background: streamingText ? 'var(--bg-card)' : 'transparent',
       borderRadius: '2px',
       border: streamingText ? '1px solid var(--border)' : 'none',
+      padding: '2rem'
     }}>
       {!streamingText ? (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2rem', margin: 'auto' }}>
@@ -76,7 +77,7 @@ export default function LoadingState({ streamingText, statusMessage }) {
           </div>
         </div>
       ) : (
-        <div style={{ padding: '2rem' }}>
+        <div style={{ flex: 1, overflow: 'hidden auto' }}>
           <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', lineHeight: '1.8', color: 'var(--text-primary)', whiteSpace: 'pre-wrap' }}>
             {streamingText}
             <span className="cursor-blink" style={{ display: 'inline-block', width: '8px', height: '1.15rem', background: 'var(--gold)', marginLeft: '4px', verticalAlign: 'text-bottom' }} />

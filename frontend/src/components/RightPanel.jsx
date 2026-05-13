@@ -5,6 +5,7 @@ import React from 'react';
 import OutputPanel from './OutputPanel';
 import ABComparisonPanel from './ABComparisonPanel';
 import FeedbackPanel from './FeedbackPanel';
+import LoadingState from './LoadingState';
 
 function IdleState() {
   return (
@@ -25,52 +26,6 @@ function IdleState() {
       <span className="ui-label" style={{ marginTop: '1rem', opacity: 0.5 }}>
         All processing is local · nothing leaves your machine
       </span>
-    </div>
-  );
-}
-
-function LoadingState({ streamingText, statusMessage }) {
-  const [phraseIdx, setPhraseIdx] = React.useState(0);
-  const phrases = ['Reading your situation...', 'Searching the archive...', 'Choosing the right words...', 'Shaping the tone...'];
-
-  React.useEffect(() => {
-    if (streamingText) return;
-    const t = setInterval(() => setPhraseIdx(i => (i + 1) % phrases.length), 2800);
-    return () => clearInterval(t);
-  }, [streamingText]);
-
-  return (
-    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', padding: '2rem' }}>
-      {/* Status */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', marginBottom: '1.5rem', flexShrink: 0 }}>
-        <div style={{
-          width: '16px', height: '16px', borderRadius: '50%',
-          border: '1.5px solid var(--gold)', borderTopColor: 'transparent',
-          animation: 'spin 0.8s linear infinite', flexShrink: 0
-        }} />
-        <span className="ui-label">{statusMessage || phrases[phraseIdx]}</span>
-      </div>
-
-      {/* Letter paper — shows streaming text or skeleton */}
-      <div className="letter-paper" style={{ flex: 1, overflow: 'hidden' }}>
-        {streamingText ? (
-          <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', lineHeight: '1.85', color: '#1a1510', whiteSpace: 'pre-wrap', height: '100%' }}>
-            {streamingText}
-            <span className="cursor-blink" />
-          </p>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', paddingTop: '0.5rem' }}>
-            {[88, 75, 82, 60, 78, 50].map((w, i) => (
-              <div key={i} style={{
-                height: '1rem', borderRadius: '1px', background: 'rgba(26,21,16,0.10)', width: `${w}%`,
-                animation: 'pulse 2s ease-in-out infinite', animationDelay: `${i * 120}ms`
-              }} />
-            ))}
-          </div>
-        )}
-      </div>
-
-      <style>{`@keyframes pulse{0%,100%{opacity:.35}50%{opacity:.65}} @keyframes spin{to{transform:rotate(360deg)}}`}</style>
     </div>
   );
 }
