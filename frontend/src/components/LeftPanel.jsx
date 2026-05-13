@@ -72,7 +72,17 @@ export default function LeftPanel({ onSubmit, onCompare, loading, initialValues,
   const isValid = form.situation && form.relationship && form.context.trim().length >= 10;
 
   const sectionLabel = (text) => (
-    <span className="ui-label" style={{ display: 'block', marginBottom: '0.45rem' }}>{text}</span>
+    <span style={{
+      fontFamily: 'var(--font-ui)',
+      fontSize: '0.62rem',
+      letterSpacing: '0.14em',
+      textTransform: 'uppercase',
+      color: 'var(--text-secondary)',  // brighter than text-tertiary
+      display: 'block',
+      marginBottom: '0.5rem'
+    }}>
+      {text}
+    </span>
   );
 
   return (

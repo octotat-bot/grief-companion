@@ -4,24 +4,36 @@
 @tailwind utilities;
 
 :root {
-  --bg-base:     #111009;
-  --bg-surface:  #18160f;
-  --bg-card:     #201d14;
-  --bg-hover:    #2a261a;
-  --text-primary:  #e8e2d4;
-  --text-secondary:#9e9888;
-  --text-tertiary: #5c5848;
+  /* Backgrounds — warm deep charcoal */
+  --bg-base:     #0f0e0b;
+  --bg-surface:  #161410;
+  --bg-card:     #1e1b14;
+  --bg-hover:    #272318;
+
+  /* Text — MUCH brighter than before */
+  --text-primary:   #f0ead8;   /* warm white — was too dim */
+  --text-secondary: #c8bfa8;   /* clearly readable muted — was #9e9888 */
+  --text-tertiary:  #8a806c;   /* visible ghost — was #5c5848 (invisible) */
+
+  /* Gold accent */
   --gold:        #c8a84b;
   --gold-subtle: rgba(200,168,75,0.10);
-  --gold-line:   rgba(200,168,75,0.28);
-  --border:      rgba(200,168,75,0.10);
-  --border-mid:  rgba(200,168,75,0.20);
-  --border-gold: rgba(200,168,75,0.55);
-  --error:       #8b4040;
-  --success:     #3d7a52;
-  --divider:     rgba(200,168,75,0.15);
-  --font-display:'Cormorant Garamond', Georgia, serif;
-  --font-ui:     'DM Mono', 'Courier New', monospace;
+  --gold-line:   rgba(200,168,75,0.45);   /* was 0.28 — now visible */
+
+  /* Borders — SOLID, not gold-tinted opacity */
+  --border:      rgba(255,255,255,0.10);  /* was gold 10% — now neutral 10% = visible */
+  --border-mid:  rgba(255,255,255,0.18);  /* hover state */
+  --border-gold: rgba(200,168,75,0.65);   /* active/focus — strong gold */
+
+  /* Semantic */
+  --error:   #c46060;
+  --success: #5aaa78;
+
+  /* Panel divider */
+  --divider: rgba(255,255,255,0.08);
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-ui:      'DM Mono', 'Courier New', monospace;
   --topbar-h:    48px;
   --statusbar-h: 36px;
 }
@@ -34,10 +46,9 @@ body {
   color: var(--text-primary);
   font-family: var(--font-display);
   height: 100vh;
-  overflow: hidden; /* THE KEY RULE — no page scroll ever */
+  overflow: hidden;
 }
 
-/* ── App shell ── */
 #root {
   display: flex;
   flex-direction: column;
@@ -45,98 +56,128 @@ body {
   overflow: hidden;
 }
 
-/* ── Scrollbar — hidden but functional for internal panel scroll ── */
+/* ── Internal scroll — thin visible scrollbar ── */
 .scrollable { overflow-y: auto; }
 .scrollable::-webkit-scrollbar { width: 3px; }
 .scrollable::-webkit-scrollbar-track { background: transparent; }
-.scrollable::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 2px; }
+.scrollable::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
 
-/* ── Typography ── */
+/* ── UI labels — DM Mono, bright enough to read ── */
 .ui-label {
   font-family: var(--font-ui);
-  font-size: 0.6rem;
-  font-weight: 300;
+  font-size: 0.62rem;
+  font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-tertiary);
 }
-.ui-label-gold { color: var(--gold); }
+.ui-label-gold {
+  color: var(--gold) !important;
+  opacity: 1 !important;
+}
 
-/* ── Gold left-border accent ── */
+/* ── Gold left-border accent — visible ── */
 .gold-bar {
   border-left: 1.5px solid var(--gold-line);
   padding-left: 0.85rem;
 }
 
-/* ── Selection pill buttons ── */
+/* ── Selection pills — CLEAR borders, readable text ── */
 .sel-pill {
   font-family: var(--font-ui);
-  font-size: 0.58rem;
-  letter-spacing: 0.1em;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);         /* was text-tertiary — too dim */
   background: transparent;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-mid);  /* was --border — invisible */
   border-radius: 2px;
-  padding: 0.45rem 0.7rem;
+  padding: 0.5rem 0.75rem;
   cursor: pointer;
   transition: all 0.18s ease;
   text-align: left;
   line-height: 1.4;
+  width: 100%;
 }
 .sel-pill:hover {
-  border-color: var(--border-mid);
-  color: var(--text-secondary);
+  border-color: rgba(200,168,75,0.5);
+  color: var(--text-primary);
   background: var(--gold-subtle);
 }
 .sel-pill.active {
-  border-color: var(--border-gold);
+  border-color: var(--gold);
   color: var(--gold);
-  background: var(--gold-subtle);
+  background: rgba(200,168,75,0.10);
+}
+/* italic sub-label inside pills */
+.sel-pill .pill-sub {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0;
+  opacity: 0.6;
+  display: block;
+  line-height: 1.2;
+  margin-top: 0.15rem;
 }
 
-/* ── Primary button (gold seal) ── */
+/* ── Primary button — solid gold, dark text ── */
 .btn-primary {
   font-family: var(--font-ui);
-  font-size: 0.62rem;
+  font-size: 0.65rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   background: var(--gold);
-  color: var(--bg-base);
+  color: #0f0e0b;
   border: none;
   border-radius: 2px;
-  padding: 0.75rem 1.5rem;
+  padding: 0.8rem 1.5rem;
   cursor: pointer;
   transition: all 0.2s ease;
   font-weight: 400;
 }
-.btn-primary:hover { background: #d9bc60; transform: translateY(-1px); }
+.btn-primary:hover {
+  background: #d9bc60;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(200,168,75,0.25);
+}
 .btn-primary:active { transform: translateY(0); }
-.btn-primary:disabled { background: var(--bg-card); color: var(--text-tertiary); cursor: not-allowed; transform: none; }
+.btn-primary:disabled {
+  background: var(--bg-card);
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  border: 1px solid var(--border);
+}
 
-/* ── Ghost button ── */
+/* ── Ghost button — visible border ── */
 .btn-ghost {
   font-family: var(--font-ui);
-  font-size: 0.58rem;
+  font-size: 0.6rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   background: transparent;
-  color: var(--text-tertiary);
-  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-mid);
   border-radius: 2px;
-  padding: 0.6rem 1rem;
+  padding: 0.65rem 1.1rem;
   cursor: pointer;
   transition: all 0.18s ease;
 }
-.btn-ghost:hover { border-color: var(--border-gold); color: var(--gold); }
+.btn-ghost:hover {
+  border-color: var(--border-gold);
+  color: var(--gold);
+}
 
-/* ── Inputs & textareas ── */
+/* ── Input fields — clearly visible ── */
 .field {
   width: 100%;
   background: var(--bg-card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-mid);   /* was --border (10% opacity) — invisible */
   border-radius: 2px;
-  padding: 0.65rem 0.85rem;
+  padding: 0.7rem 0.9rem;
   font-family: var(--font-display);
   font-size: 0.95rem;
   color: var(--text-primary);
@@ -144,20 +185,28 @@ body {
   transition: border-color 0.18s;
   resize: none;
 }
-.field::placeholder { color: var(--text-tertiary); font-style: italic; }
-.field:focus { border-color: var(--border-gold); }
+.field::placeholder {
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+.field:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 1px rgba(200,168,75,0.15);
+}
 
-/* ── Letter paper (draft output) ── */
+/* ── Letter paper — output draft panel ── */
 .letter-paper {
-  background: #f8f4ed;
+  background: #f7f3ec;
   color: #1a1510;
   border-left: 3px solid var(--gold);
   font-family: var(--font-display);
   font-size: 1.05rem;
-  line-height: 1.85;
-  padding: 1.75rem 1.75rem 1.75rem 2rem;
+  line-height: 1.9;
+  padding: 1.75rem 2rem 1.75rem 2rem;
   border-radius: 2px;
-  box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+  box-shadow:
+    0 1px 4px rgba(0,0,0,0.5),
+    0 8px 32px rgba(0,0,0,0.35);
 }
 
 /* ── Animations ── */
@@ -174,7 +223,6 @@ body {
 
 .fade-up { animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both; }
 .fade-in { animation: fadeIn 0.35s ease both; }
-
 .delay-1 { animation-delay: 0.08s; }
 .delay-2 { animation-delay: 0.16s; }
 .delay-3 { animation-delay: 0.24s; }
@@ -182,11 +230,13 @@ body {
 
 /* ── Cursor ── */
 .cursor-blink {
-  display: inline-block; width: 1.5px; height: 1em;
-  background: var(--gold); margin-left: 2px;
+  display: inline-block;
+  width: 1.5px; height: 1em;
+  background: var(--gold);
+  margin-left: 2px;
   vertical-align: text-bottom;
   animation: blink 1s step-end infinite;
 }
 
-/* ── Selection ── */
-::selection { background: rgba(200,168,75,0.18); color: var(--text-primary); }
+/* ── Selection highlight ── */
+::selection { background: rgba(200,168,75,0.2); color: var(--text-primary); }

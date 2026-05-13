@@ -27,7 +27,7 @@ export default function Statusbar() {
       {services.map(s => (
         <div key={s.key} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
           <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: dotColor(status[s.key]) }} />
-          <span className="ui-label" style={{ opacity: 0.5 }}>{s.label}</span>
+          <span className="ui-label" style={{ color: 'var(--text-secondary)' }}>{s.label}</span>
         </div>
       ))}
     </div>

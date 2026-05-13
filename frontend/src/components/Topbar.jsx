@@ -24,7 +24,7 @@ export default function Topbar({ onHistoryOpen }) {
         </span>
         {/* Gold dot separator */}
         <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--gold)', opacity: 0.6, display: 'inline-block', marginBottom: '2px' }} />
-        <span className="ui-label" style={{ opacity: 0.5 }}>A writing instrument</span>
+        <span className="ui-label" style={{ color: 'var(--text-tertiary)', opacity: 0.7 }}>A writing instrument</span>
       </div>
 
       {/* Right actions */}
