@@ -6,20 +6,17 @@ echo ""
 
 # Start Python RAG service
 echo "Starting RAG service..."
-cd rag-service && python3 app.py &
-cd ..
+(cd rag-service && python3 app.py) &
 sleep 4
 
 # Start Node.js backend
 echo "Starting backend..."
-cd backend && npm start &
-cd ..
+(cd backend && npm start) &
 sleep 1
 
 # Start React frontend
 echo "Starting frontend..."
-cd frontend && npm run dev &
-cd ..
+(cd frontend && npm run dev) &
 
 echo ""
 echo "=== All services running ==="
