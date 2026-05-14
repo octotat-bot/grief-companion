@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import StatusBar from '../components/StatusBar';
+import Statusbar from '../components/Statusbar';
 
 export default function ProfilePage() {
   const { user, logout } = useAuth();
@@ -66,7 +66,7 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
-      <StatusBar />
+      <Statusbar />
     </div>
   );
 }
