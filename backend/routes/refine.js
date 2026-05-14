@@ -15,45 +15,7 @@ const mongoose = require('mongoose');
 // Maximum times a user can refine a single draft
 const MAX_REFINEMENTS = 3;
 
-function buildRefinementPrompt(originalDraft, critique, formInput) {
-  const { situation, relationship, tone, recipientName } = formInput;
-
-  const toneReminders = {
-    formal: 'Maintain formal, professional language throughout.',
-    warm: 'Keep the warm, personal tone throughout.',
-    brief: 'Keep it concise — 2 to 4 sentences only.',
-    heartfelt: 'Keep the emotional depth and vulnerability.'
-  };
-
-  return `You are a compassionate writing assistant refining a draft message.
-
-ORIGINAL DRAFT:
-"${originalDraft}"
-
-CONTEXT:
-- Situation: ${situation?.replace('_', ' ')}
-- Relationship: ${relationship}
-- Tone requested: ${tone}
-${recipientName ? `- Recipient: ${recipientName}` : ''}
-
-USER'S CRITIQUE:
-"${critique}"
-
-YOUR TASK:
-Rewrite the message to address the critique above. Fix exactly what the user pointed out.
-Do not change things they did not mention.
-${toneReminders[tone] || ''}
-
-ABSOLUTE RULES:
-1. Output ONLY the refined message. No preamble. Start directly with the message.
-2. Do not explain what you changed. Just write the improved message.
-3. Do not use placeholder text like [name].
-4. The message should still sound like a real human wrote it.
-5. If the critique is to make it longer, add meaningful content — not filler.
-6. If the critique is to make it shorter, cut ruthlessly while keeping the core feeling.
-
-Write the refined message now:`;
-}
+const { buildRefinementPrompt } = require('../services/promptBuilder');
 
 router.post('/', async (req, res) => {
   const { draftId, currentDraft, critique, formInput } = req.body;

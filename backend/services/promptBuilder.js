@@ -1,82 +1,148 @@
-// This is the most important file in the backend.
-// It takes the user's input + retrieved examples and builds
-// the exact prompt string that gets sent to the LLM.
-// A good prompt is the difference between a generic and a great message.
+// promptBuilder.js — optimized for Gemini 1.5 Flash
+// Gemini differences from llama3:
+// 1. Responds better to a system + user message split than one big prompt
+// 2. Needs harder output constraints — tends to add "Of course!" preambles
+// 3. Better at following role-based framing ("You are...")
+// 4. Handles few-shot examples extremely well — include them clearly labeled
 
-function buildPrompt(userInput, retrievedExamples, options = {}) {
+function buildPrompt(userInput, retrievedExamples = []) {
   const {
-    situation,       // 'condolence' | 'apology' | 'difficult_news' | 'reconnection' | 'eulogy'
-    relationship,    // 'colleague' | 'friend' | 'close_friend' | 'family' | 'acquaintance' | 'partner'
-    tone,            // 'formal' | 'warm' | 'brief' | 'heartfelt'
-    recipientName,   // e.g. "Priya" (optional)
-    senderName,      // e.g. "Rohan" (optional)
-    context,         // Free text: "My colleague's father passed away last week"
-    additionalNotes  // Free text: "We have worked together for 3 years"
+    situation,
+    relationship,
+    tone,
+    context,
+    recipientName,
+    senderName,
+    additionalNotes
   } = userInput;
 
-  const situationDescriptions = {
-    condolence: 'a condolence message for someone who has experienced a loss or death',
-    apology: 'a sincere apology message',
-    difficult_news: 'a compassionate message delivering difficult or painful news',
-    reconnection: 'a message reaching out to reconnect after a period of distance or conflict',
-    eulogy: 'a tribute or eulogy honoring someone who has passed'
+  // ── Situation descriptions ──
+  const situationMap = {
+    condolence:     'a sincere condolence message for someone experiencing grief or loss',
+    apology:        'a genuine and heartfelt apology',
+    difficult_news: 'a compassionate message delivering painful or difficult news',
+    reconnection:   'a thoughtful message reaching out after distance or conflict',
+    eulogy:         'a tribute or eulogy honoring someone who has passed'
   };
 
-  const toneInstructions = {
-    formal: 'Use formal, respectful language. Avoid contractions. Maintain professional distance while still showing empathy.',
-    warm: 'Use warm, personal language. Contractions are fine. The message should feel like it comes from someone who genuinely cares.',
-    brief: 'Be concise. 3-4 sentences maximum. Every word count. Do not over-explain.',
-    heartfelt: 'Be deeply personal and emotional. It is okay to be vulnerable. Show genuine feeling without being melodramatic.'
+  // ── Tone instructions — Gemini follows these very precisely ──
+  const toneMap = {
+    formal:    'Formal and measured. No contractions. Professional warmth. Like a handwritten note on letterhead.',
+    warm:      'Warm and personal. Contractions are fine. Sounds like a caring friend who chooses words carefully.',
+    brief:     'Extremely brief. 2 to 3 sentences only. Every word must earn its place. Nothing extra.',
+    heartfelt: 'Deeply personal and emotionally open. Vulnerability is appropriate. Avoid melodrama.'
   };
 
-  const relationshipContext = {
-    colleague: 'You have a professional relationship. You are cordial but not deeply personal friends.',
-    friend: 'You are friends but not extremely close. You care about this person.',
-    close_friend: 'This person is one of your closest friends. You have a deep, personal bond.',
-    family: 'This is a family member. The relationship has history, complexity, and deep connection.',
-    acquaintance: 'You know this person but are not close. You want to reach out appropriately without overstepping.',
-    partner: 'This is your romantic partner or spouse. The message is deeply intimate.'
+  // ── Length guide ──
+  const lengthMap = {
+    formal:    '3 to 5 sentences.',
+    warm:      '3 to 5 sentences.',
+    brief:     '2 to 3 sentences. Hard limit.',
+    heartfelt: '5 to 8 sentences.'
   };
 
-  // Build the examples section from RAG results
+  // ── Relationship framing ──
+  const relationshipMap = {
+    colleague:    'a professional acquaintance — cordial but not deeply personal',
+    friend:       'a genuine friend the sender cares about',
+    close_friend: 'one of the sender\'s closest friends — deep personal history',
+    family:       'a family member — complex, long-term, deeply rooted relationship',
+    acquaintance: 'someone the sender knows but is not close to',
+    partner:      'a romantic partner or spouse — the most intimate relationship'
+  };
+
+  // ── Recipient / sender lines ──
+  const recipientLine = recipientName
+    ? `Address the recipient as "${recipientName}" naturally within the message.`
+    : 'Do not address the recipient by name — you do not have it.';
+
+  const senderLine = senderName
+    ? `Sign off the message as "${senderName}".`
+    : 'Do not add a signature or sign-off name.';
+
+  // ── Few-shot examples from RAG corpus ──
   let examplesSection = '';
-  if (retrievedExamples && retrievedExamples.length > 0) {
-    examplesSection = `\n\nHere are some examples of well-written messages in similar situations. Use these as stylistic inspiration — do not copy them directly:\n\n`;
-    retrievedExamples.forEach((ex, i) => {
-      examplesSection += `Example ${i + 1}:\n"${ex.text}"\n\n`;
-    });
+  if (retrievedExamples.length > 0) {
+    examplesSection = `
+REFERENCE EXAMPLES — use only for tone and rhythm, do not copy:
+${retrievedExamples.map((ex, i) =>
+  `[Example ${i + 1}]
+"${ex.text}"`
+).join('\n\n')}
+
+`;
   }
 
-  const recipientLine = recipientName ? `The recipient's name is ${recipientName}.` : "You do not know the recipient's name — do not use one.";
-  const senderLine = senderName ? `The sender's name is ${senderName}.` : 'Do not sign the message.';
+  // ── The prompt ──
+  // Gemini works best with a clean role declaration up top,
+  // then structured inputs, then hard output rules at the bottom.
+  const prompt = `You are a compassionate writing assistant. You help people express difficult emotions with grace, honesty, and authenticity. You write like a thoughtful human being — not a greeting card, not a chatbot.
 
-  const prompt = `You are a compassionate writing assistant who helps people express difficult emotions with grace and authenticity.
+TASK:
+Write ${situationMap[situation] || 'a compassionate message'}.
 
-Your task: Write ${situationDescriptions[situation] || 'a compassionate message'}.
+INPUTS:
+- Relationship: ${relationshipMap[relationship] || relationship}
+- Tone: ${toneMap[tone] || toneMap.warm}
+- Length: ${lengthMap[tone] || lengthMap.warm}
+- ${recipientLine}
+- ${senderLine}
 
-Relationship: ${relationshipContext[relationship] || 'The sender and recipient know each other.'}
-Tone: ${toneInstructions[tone] || toneInstructions.warm}
-${recipientLine}
-${senderLine}
-
-Context provided by the sender:
-"${context}"
-
-${additionalNotes ? `Additional notes: "${additionalNotes}"` : ''}
+SITUATION (written by the sender):
+"${context.trim()}"
+${additionalNotes?.trim() ? `\nADDITIONAL CONTEXT:\n"${additionalNotes.trim()}"` : ''}
 ${examplesSection}
-
-CRITICAL RULES you must follow:
-1. Write ONLY the message itself. Do not include any preamble like "Here is a message:" or "Sure, here's a draft:". Start directly with the message.
-2. Do not include placeholder text like [name] or [date]. Either use the actual name provided or omit it.
-3. Do not be preachy or lecture the recipient. The message is about them, not about abstract values.
-4. Do not use clichés like "time heals all wounds", "they are in a better place", or "everything happens for a reason" unless the context strongly calls for it.
-5. Match the tone instruction exactly. If asked for brief, be brief. If asked for formal, be formal.
-6. Sound like a real human being, not a greeting card.
-7. Length: ${tone === 'brief' ? '2-4 sentences' : '3-5 sentences for formal/warm, up to 8 for heartfelt'}.
+OUTPUT RULES — follow every single one, no exceptions:
+1. Output the message and nothing else. Zero preamble. The very first character of your response must be the first character of the message. Do not write "Here is", "Sure!", "Of course", "Certainly", or anything similar.
+2. Do not use placeholder text like [Name], [relationship], or [specific memory].
+3. Do not moralize, lecture, or give advice about grief, healing, or forgiveness.
+4. Avoid all clichés: "time heals all wounds" · "they are in a better place" · "everything happens for a reason" · "I know how you feel" · "words cannot express".
+5. Do not explain what you are doing or summarize the message at the end.
+6. Sound like a real, specific human wrote this for this specific person — not a template.
+7. If tone is BRIEF: stop after 3 sentences no matter what. Do not exceed this.
 
 Write the message now:`;
 
   return prompt;
 }
 
-module.exports = { buildPrompt };
+// ── Refinement prompt — used by refine.js ──
+// Separate function so the refinement call is also Gemini-optimized
+
+function buildRefinementPrompt(originalDraft, critique, formInput) {
+  const { situation, relationship, tone, recipientName } = formInput;
+
+  const toneReminders = {
+    formal:    'Keep the formal register throughout.',
+    warm:      'Keep the warm, personal tone throughout.',
+    brief:     'Keep it under 3 sentences. Do not expand.',
+    heartfelt: 'Keep the emotional depth and openness.'
+  };
+
+  return `You are a compassionate writing assistant refining a draft message based on user feedback.
+
+ORIGINAL DRAFT:
+"${originalDraft}"
+
+CONTEXT:
+- Situation: ${situation?.replace('_', ' ')}
+- Relationship: ${relationship}
+- Tone: ${tone}
+${recipientName ? `- Recipient: ${recipientName}` : ''}
+
+USER'S FEEDBACK — fix exactly this, nothing else:
+"${critique}"
+
+${toneReminders[tone] || ''}
+
+OUTPUT RULES:
+1. Output the refined message only. No preamble, no explanation of changes.
+2. Fix what the user pointed out. Do not change anything they did not mention.
+3. Do not use placeholder text.
+4. Sound like a real human wrote it.
+${tone === 'brief' ? '5. Maximum 3 sentences. Hard limit.' : ''}
+
+Write the refined message now:`;
+}
+
+module.exports = { buildPrompt, buildRefinementPrompt };
