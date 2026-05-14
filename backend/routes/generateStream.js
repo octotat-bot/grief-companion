@@ -9,7 +9,7 @@ const Draft = require('../models/Draft');
 const mongoose = require('mongoose');
 
 const ai = new GoogleGenAI({});
-const MODEL = 'gemini-2.0-flash';
+const MODEL = 'gemini-2.0-flash-lite';
 
 function validateInput(body) {
   const errors = [];
