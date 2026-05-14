@@ -2,6 +2,7 @@
 // It starts an Express server on port 3001.
 // CORS is enabled so the React frontend on port 5173 can call it.
 
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
