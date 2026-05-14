@@ -21,7 +21,7 @@ const feedbackRoute = require('./routes/feedback');
 const sessionRoute = require('./routes/session');
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // Connect to MongoDB
 connectDB();
@@ -43,6 +43,6 @@ app.use('/api/feedback', feedbackRoute);
 app.use('/api/session', sessionRoute);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Backend running on http://localhost:${PORT}`);
+app.listen(PORT, '127.0.0.1', () => {
+  console.log(`Backend running on http://127.0.0.1:${PORT}`);
 });
