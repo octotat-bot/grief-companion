@@ -1,7 +1,7 @@
 const { GoogleGenAI } = require('@google/genai');
 
 // Initialize the client. It automatically picks up GEMINI_API_KEY from process.env
-const ai = new GoogleGenAI();
+const ai = new GoogleGenAI({});
 const MODEL = 'gemini-1.5-flash';
 
 async function generateWithGemini(prompt, options = {}) {

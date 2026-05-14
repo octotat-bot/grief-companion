@@ -8,7 +8,7 @@ const { buildPrompt } = require('../services/promptBuilder');
 const Draft = require('../models/Draft');
 const mongoose = require('mongoose');
 
-const ai = new GoogleGenAI();
+const ai = new GoogleGenAI({});
 const MODEL = 'gemini-1.5-flash';
 
 function validateInput(body) {

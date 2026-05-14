@@ -5,7 +5,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const connectDB = require('./config/db');
+const { connectDB } = require('./config/db');
 const generateRoute = require('./routes/generate');
 const generateStreamRoute = require('./routes/generateStream');
 const generateABRoute = require('./routes/generateAB');
