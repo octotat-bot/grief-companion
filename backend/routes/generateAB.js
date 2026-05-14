@@ -5,7 +5,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { generateWithOllama } = require('../services/ollamaService');
+const { generateWithGemini } = require('../services/geminiService');
 const { retrieveSimilarExamples } = require('../services/ragService');
 const { buildPrompt } = require('../services/promptBuilder');
 const Draft = require('../models/Draft');
@@ -63,11 +63,11 @@ router.post('/', async (req, res) => {
     );
 
     const [resultA, resultB] = await Promise.all([
-      generateWithOllama(promptA, {
+      generateWithGemini(promptA, {
         temperature: tone === 'heartfelt' ? 0.8 : tone === 'brief' ? 0.6 : 0.7,
         maxTokens: tone === 'brief' ? 120 : 480
       }),
-      generateWithOllama(promptB, {
+      generateWithGemini(promptB, {
         temperature: alternateTone === 'heartfelt' ? 0.8 : alternateTone === 'brief' ? 0.6 : 0.7,
         maxTokens: alternateTone === 'brief' ? 120 : 480
       })
@@ -106,9 +106,6 @@ router.post('/', async (req, res) => {
     });
 
   } catch (err) {
-    if (err.code === 'ECONNREFUSED') {
-      return res.status(503).json({ success: false, error: 'OLLAMA_NOT_RUNNING', message: 'Ollama is not running. Run: ollama serve' });
-    }
     return res.status(500).json({ success: false, error: 'GENERATION_FAILED', message: err.message });
   }
 });
