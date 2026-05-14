@@ -4,7 +4,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { generateWithGemini } = require('../services/geminiService');
+const { generateWithOllama } = require('../services/llmService');
 const { retrieveSimilarExamples } = require('../services/ragService');
 const { buildPrompt } = require('../services/promptBuilder');
 
@@ -54,8 +54,8 @@ router.post('/', async (req, res) => {
     ragResult.examples
   );
 
-  // Step 4: Generate with Gemini
-  const generationResult = await generateWithGemini(prompt, {
+  // Step 4: Generate with Groq
+  const generationResult = await generateWithOllama(prompt, {
     temperature: tone === 'heartfelt' ? 0.8 : 0.65,
     maxTokens: tone === 'brief' ? 150 : 450
   });

@@ -1,15 +1,15 @@
-// This route streams each token chunk from Gemini to the browser using Server-Sent Events (SSE).
+// This route streams each token chunk from Groq to the browser using Server-Sent Events (SSE).
 
 const express = require('express');
 const router = express.Router();
-const { GoogleGenAI } = require('@google/genai');
+const axios = require('axios');
 const { retrieveSimilarExamples } = require('../services/ragService');
 const { buildPrompt } = require('../services/promptBuilder');
 const Draft = require('../models/Draft');
 const mongoose = require('mongoose');
 
-const ai = new GoogleGenAI({});
-const MODEL = 'gemini-1.5-flash-8b';
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const MODEL = 'llama-3.1-8b-instant';
 
 function validateInput(body) {
   const errors = [];
@@ -54,6 +54,11 @@ router.post('/', async (req, res) => {
     res.write(`data: ${JSON.stringify(eventData)}\n\n`);
   };
 
+  if (!GROQ_API_KEY) {
+    send({ type: 'error', error: 'NO_API_KEY', message: 'GROQ_API_KEY is missing' });
+    return res.end();
+  }
+
   try {
     send({ type: 'status', message: 'Finding similar examples...' });
     const ragQuery = `${situation} ${relationship} ${tone} ${context.slice(0, 200)}`;
@@ -67,57 +72,83 @@ router.post('/', async (req, res) => {
 
     send({ type: 'status', message: 'Generating your draft...' });
 
-    const responseStream = await ai.models.generateContentStream({
-      model: MODEL,
-      contents: prompt,
-      config: {
+    const groqResponse = await axios.post(
+      'https://api.groq.com/openai/v1/chat/completions',
+      {
+        model: MODEL,
+        messages: [{ role: 'user', content: prompt }],
+        stream: true,
         temperature: tone === 'heartfelt' ? 0.8 : tone === 'brief' ? 0.6 : 0.7,
-        maxOutputTokens: tone === 'brief' ? 150 : 500,
-        safetySettings: [
-          { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-          { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-          { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-          { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
-        ]
+        max_tokens: tone === 'brief' ? 150 : 500
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${GROQ_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        responseType: 'stream'
+      }
+    );
+
+    let fullText = '';
+    let buffer = '';
+
+    groqResponse.data.on('data', (chunk) => {
+      buffer += chunk.toString();
+      const lines = buffer.split('\n');
+      buffer = lines.pop(); // keep the last incomplete chunk in the buffer
+
+      for (const line of lines) {
+        if (!line.trim() || line.trim() === 'data: [DONE]') continue;
+        if (line.startsWith('data: ')) {
+          try {
+            const parsed = JSON.parse(line.slice(6));
+            const token = parsed.choices[0]?.delta?.content || '';
+            if (token) {
+              fullText += token;
+              send({ type: 'token', token: token });
+            }
+          } catch (parseErr) {
+            console.warn('Stream parse error:', parseErr.message);
+          }
+        }
       }
     });
 
-    let fullText = '';
+    groqResponse.data.on('end', async () => {
+      const cleanedText = cleanLLMOutput(fullText);
 
-    for await (const chunk of responseStream) {
-      if (chunk.text) {
-        fullText += chunk.text;
-        send({ type: 'token', token: chunk.text });
+      if (mongoose.connection.readyState === 1) {
+        try {
+          const doc = await Draft.create({
+            formInput: {
+              situation, relationship, tone, context,
+              recipientName: recipientName || '',
+              senderName: senderName || '',
+              additionalNotes: additionalNotes || ''
+            },
+            draft: cleanedText,
+            retrievedExamples: ragResult.examples,
+            ragDegraded: ragResult.degraded || false,
+            model: MODEL,
+            isSaved: false,
+            classifierUsed: classifierUsed || false,
+            classifierConfidence: classifierConfidence || null
+          });
+          send({ type: 'saved', draftId: doc._id.toString() });
+        } catch (err) {
+          console.error('DB save error:', err.message);
+        }
       }
-    }
 
-    const cleanedText = cleanLLMOutput(fullText);
+      send({ type: 'done', draft: cleanedText, retrievedExamples: ragResult.examples, ragDegraded: ragResult.degraded || false });
+      res.end();
+    });
 
-    if (mongoose.connection.readyState === 1) {
-      try {
-        const doc = await Draft.create({
-          formInput: {
-            situation, relationship, tone, context,
-            recipientName: recipientName || '',
-            senderName: senderName || '',
-            additionalNotes: additionalNotes || ''
-          },
-          draft: cleanedText,
-          retrievedExamples: ragResult.examples,
-          ragDegraded: ragResult.degraded || false,
-          model: MODEL,
-          isSaved: false,
-          classifierUsed: classifierUsed || false,
-          classifierConfidence: classifierConfidence || null
-        });
-        send({ type: 'saved', draftId: doc._id.toString() });
-      } catch (err) {
-        console.error('DB save error:', err.message);
-      }
-    }
-
-    send({ type: 'done', draft: cleanedText, retrievedExamples: ragResult.examples, ragDegraded: ragResult.degraded || false });
-    res.end();
+    groqResponse.data.on('error', (err) => {
+      send({ type: 'error', error: 'STREAM_ERROR', message: err.message });
+      res.end();
+    });
 
   } catch (err) {
     console.error('Stream error:', err);

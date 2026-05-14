@@ -5,7 +5,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { generateWithGemini } = require('../services/geminiService');
+const { generateWithOllama } = require('../services/llmService');
 const { retrieveSimilarExamples } = require('../services/ragService');
 const { buildPrompt } = require('../services/promptBuilder');
 const Draft = require('../models/Draft');
@@ -63,11 +63,11 @@ router.post('/', async (req, res) => {
     );
 
     const [resultA, resultB] = await Promise.all([
-      generateWithGemini(promptA, {
+      generateWithOllama(promptA, {
         temperature: tone === 'heartfelt' ? 0.8 : tone === 'brief' ? 0.6 : 0.7,
         maxTokens: tone === 'brief' ? 120 : 480
       }),
-      generateWithGemini(promptB, {
+      generateWithOllama(promptB, {
         temperature: alternateTone === 'heartfelt' ? 0.8 : alternateTone === 'brief' ? 0.6 : 0.7,
         maxTokens: alternateTone === 'brief' ? 120 : 480
       })
