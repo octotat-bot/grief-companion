@@ -1,18 +1,23 @@
 # Grief Language Companion
 
-A free, local AI tool that helps people write emotionally difficult messages.
+A tool that helps people write emotionally difficult messages, powered by the Gemini 1.5 Flash API.
 
 ## Prerequisites
 - Node.js 18+ (https://nodejs.org)
 - Python 3.9+ (https://python.org)
-- Ollama (https://ollama.com)
 
 ## Setup (one time)
-```bash
-git clone <your-repo>
-cd grief-companion
-bash scripts/setup.sh
-```
+1. Clone the repository:
+   ```bash
+   git clone <your-repo>
+   cd grief-companion
+   ```
+2. Install dependencies:
+   ```bash
+   bash scripts/setup.sh
+   ```
+3. Set up your `.env` files:
+   Copy `backend/.env.example` to `backend/.env` and add your **MongoDB Atlas Connection String** and your **Gemini API Key**.
 
 ## Run
 ```bash
@@ -26,10 +31,8 @@ Open http://localhost:5173
 | React frontend | 5173 | User interface |
 | Node.js backend | 3001 | API + prompt orchestration |
 | Python RAG service | 5001 | Semantic search over corpus |
-| Ollama | 11434 | Local AI model |
 
 ## Troubleshooting
-- **"Ollama not running"** → Run `ollama serve` in a terminal
-- **Generation is slow** → Switch to `phi3:mini` in `backend/services/ollamaService.js`
-- **RAG service fails** → App still works — it just generates without examples
+- **"MongoDB Atlas connection failed"** → Make sure your IP address is whitelisted in MongoDB Atlas Network Access.
+- **RAG service fails** → App still works — it just generates without examples.
 - **Frontend can't connect** → Make sure backend is running: `cd backend && npm start`

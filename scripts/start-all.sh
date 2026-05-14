@@ -1,26 +1,35 @@
 #!/bin/bash
-# Starts all three services in separate terminal processes.
-
-echo "Starting all services..."
-
-# Start Ollama
-ollama serve &
-sleep 2
+echo "Starting Grief Language Companion..."
+echo ""
+echo "MongoDB: Using Atlas (cloud) — no local start needed"
+echo ""
 
 # Start Python RAG service
-(cd rag-service && python3 app.py) &
-sleep 3
+echo "Starting RAG service..."
+cd rag-service && python3 app.py &
+cd ..
+sleep 4
 
 # Start Node.js backend
-(cd backend && npm start) &
+echo "Starting backend..."
+cd backend && npm start &
+cd ..
 sleep 1
 
 # Start React frontend
-(cd frontend && npm run dev) &
+echo "Starting frontend..."
+cd frontend && npm run dev &
+cd ..
 
 echo ""
-echo "=== All services started ==="
-echo "Open http://localhost:5173 in your browser"
-echo "Press Ctrl+C to stop all services"
-
+echo "=== All services running ==="
+echo "Open: http://localhost:5173"
+echo ""
+echo "Services:"
+echo "  Frontend  → http://localhost:5173"
+echo "  Backend   → http://localhost:3001"
+echo "  RAG       → http://localhost:5001"
+echo "  MongoDB   → Atlas (cloud)"
+echo ""
+echo "Press Ctrl+C to stop."
 wait
