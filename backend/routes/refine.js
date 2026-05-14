@@ -8,7 +8,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { generateWithOllama } = require('../services/ollamaService');
+const { generateWithGemini } = require('../services/geminiService');
 const Draft = require('../models/Draft');
 const mongoose = require('mongoose');
 
@@ -58,8 +58,7 @@ router.post('/', async (req, res) => {
     formInput
   );
 
-  // Generate the refined draft
-  const genResult = await generateWithOllama(prompt, {
+  const genResult = await generateWithGemini(prompt, {
     temperature: 0.65, // Slightly lower temperature for refinements — we want targeted changes
     maxTokens: formInput.tone === 'brief' ? 150 : 500
   });
