@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import API from '../config';
 
 export function useGenerate() {
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,7 @@ export function useGenerate() {
     abortRef.current = controller;
 
     try {
-      const response = await fetch('/api/generate/stream', {
+      const response = await fetch(`${API}/api/generate/stream`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

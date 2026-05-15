@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import API from '../config';
 
 export function useServiceHealth() {
   const [status, setStatus] = useState({
@@ -13,7 +14,7 @@ export function useServiceHealth() {
     
     const checkHealth = async () => {
       try {
-        const res = await fetch('/api/health');
+        const res = await fetch(`${API}/api/health`);
         if (!mounted) return;
         
         if (res.ok || res.status === 206) {

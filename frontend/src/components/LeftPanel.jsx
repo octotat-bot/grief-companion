@@ -3,6 +3,7 @@
 // All form sections are compacted so they fit on screen without scrolling.
 
 import React, { useState, useEffect, useRef } from 'react';
+import API from '../config';
 
 const SITUATIONS = [
   { value: 'condolence',     label: 'Condolence',    sub: 'loss · grief' },
@@ -41,7 +42,7 @@ export default function LeftPanel({ onSubmit, onCompare, loading, initialValues,
   // Auto-save session
   useEffect(() => {
     const t = setTimeout(() => {
-      fetch('/api/session', {
+      fetch(`${API}/api/session`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ formState: form })
       }).catch(() => {});
@@ -55,7 +56,7 @@ export default function LeftPanel({ onSubmit, onCompare, loading, initialValues,
     clearTimeout(timerRef.current);
     timerRef.current = setTimeout(async () => {
       try {
-        const res = await fetch('/api/classify', {
+        const res = await fetch(`${API}/api/classify`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text: form.context })
         });

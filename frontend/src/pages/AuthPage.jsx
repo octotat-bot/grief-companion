@@ -4,6 +4,7 @@
 
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import API from '../config';
 
 export default function AuthPage() {
   const { login } = useAuth();
@@ -24,7 +25,7 @@ export default function AuthPage() {
         ? { email: form.email, password: form.password }
         : { name: form.name, email: form.email, password: form.password };
 
-      const res = await fetch(endpoint, {
+      const res = await fetch(`${API}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)

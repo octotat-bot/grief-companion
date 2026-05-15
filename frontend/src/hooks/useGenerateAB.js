@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import API from '../config';
 
 export function useGenerateAB() {
   const [loading, setLoading] = useState(false);
@@ -11,7 +12,7 @@ export function useGenerateAB() {
     setResult(null);
 
     try {
-      const res = await fetch('/api/generate/ab', {
+      const res = await fetch(`${API}/api/generate/ab`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

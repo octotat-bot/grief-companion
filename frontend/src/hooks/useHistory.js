@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
+import API from '../config';
 
 export function useHistory() {
   const [history, setHistory] = useState([]);
@@ -12,7 +13,7 @@ export function useHistory() {
     if (!token) return;
     try {
       setLoading(true);
-      const res = await fetch('/api/history', {
+      const res = await fetch(`${API}/api/history`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -43,7 +44,7 @@ export function useHistory() {
     };
 
     try {
-      const res = await fetch('/api/history', {
+      const res = await fetch(`${API}/api/history`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -63,7 +64,7 @@ export function useHistory() {
   const removeFromHistory = async (id) => {
     if (!token) return;
     try {
-      await fetch(`/api/history/${id}`, { 
+      await fetch(`${API}/api/history/${id}`, { 
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });

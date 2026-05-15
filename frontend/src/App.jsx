@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import API from './config';
 import Topbar from './components/Topbar';
 import LeftPanel from './components/LeftPanel';
 import RightPanel from './components/RightPanel';
@@ -20,7 +21,7 @@ function MainApp() {
   const activeError = error || abError;
 
   useEffect(() => {
-    fetch('/api/session').then(r => r.json())
+    fetch(`${API}/api/session`).then(r => r.json())
       .then(d => { if (d.success && d.formState) setSessionValues(d.formState); })
       .catch(() => {});
   }, []);
@@ -43,12 +44,12 @@ function MainApp() {
 
   const handleSave = async (draftId, editedDraft, note) => {
     if (!draftId) return;
-    await fetch(`/api/history/${draftId}/save`, { method: 'PATCH' });
-    if (note) await fetch(`/api/history/${draftId}/note`, {
+    await fetch(`${API}/api/history/${draftId}/save`, { method: 'PATCH' });
+    if (note) await fetch(`${API}/api/history/${draftId}/note`, {
       method: 'PATCH', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ note })
     });
-    if (editedDraft) await fetch(`/api/history/${draftId}/edit`, {
+    if (editedDraft) await fetch(`${API}/api/history/${draftId}/edit`, {
       method: 'PATCH', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ editedDraft })
     });

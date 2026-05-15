@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import API from '../config';
 
 const MAX_REFINEMENTS = 3;
 const CHIPS = ['Too formal','Too casual','Too long','Too short','More warmth','More specific','Remove clichés','More personal'];
@@ -14,7 +15,7 @@ export default function FeedbackPanel({ draftId, currentDraft, formInput, onRefi
   const submitRating = async (score) => {
     setRating(score);
     if (draftId) {
-      try { await fetch('/api/feedback', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ draftId, score }) }); } catch {}
+      try { await fetch(`${API}/api/feedback`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ draftId, score }) }); } catch {}
     }
     if (score === 1) setDone(true);
   };
@@ -23,7 +24,7 @@ export default function FeedbackPanel({ draftId, currentDraft, formInput, onRefi
     if (!critique.trim() || refining || count >= MAX_REFINEMENTS) return;
     setRefining(true); setError(null);
     try {
-      const res = await fetch('/api/refine', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ draftId, currentDraft, critique: critique.trim(), formInput }) });
+      const res = await fetch(`${API}/api/refine`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ draftId, currentDraft, critique: critique.trim(), formInput }) });
       const data = await res.json();
       if (!data.success) { setError(data.message || 'Refinement failed.'); return; }
       const newCount = count + 1;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SourceSnippets from './SourceSnippets';
 import FeedbackPanel from './FeedbackPanel';
+import API from '../config';
 
 export default function OutputPanel({ result, onReset, onSave }) {
   const [currentDraft, setCurrentDraft] = useState(result.draft);
@@ -27,7 +28,7 @@ export default function OutputPanel({ result, onReset, onSave }) {
     setEditing(false);
     if (result.draftId && currentDraft !== result.draft) {
       try {
-        await fetch(`/api/history/${result.draftId}/edit`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ editedDraft: currentDraft }) });
+        await fetch(`${API}/api/history/${result.draftId}/edit`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ editedDraft: currentDraft }) });
       } catch {}
     }
   };

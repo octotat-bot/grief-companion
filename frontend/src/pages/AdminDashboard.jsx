@@ -1,6 +1,7 @@
 // Private Letter UI Redesign
 import React, { useState, useEffect } from 'react';
 import Statusbar from '../components/Statusbar';
+import API from '../config';
 
 const COLORS = {
   condolence: 'var(--gold)',
@@ -50,7 +51,7 @@ export default function AdminDashboard() {
   const fetchAnalytics = async (days) => {
     setLoading(true); setError(null);
     try {
-      const res = await fetch(`/api/analytics?days=${days}`);
+      const res = await fetch(`${API}/api/analytics?days=${days}`);
       const json = await res.json();
       if (!json.success) { setError(json.message || 'Failed to load analytics'); return; }
       setData(json);
