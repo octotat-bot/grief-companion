@@ -1,50 +1,39 @@
-# This file handles the actual semantic search.
-# It embeds the user's query and finds the most similar corpus examples.
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
-from sentence_transformers import SentenceTransformer
+def search_corpus(documents, query, situation_type=None, limit=3):
+    if not documents:
+        return []
 
-EMBEDDING_MODEL = 'all-MiniLM-L6-v2'
-_model = None  # Cached model — only load once
+    # Filter by situation type if provided
+    filtered = [d for d in documents if not situation_type or d.get('type') == situation_type]
+    if not filtered:
+        filtered = documents  # fallback to all if filter returns nothing
 
-def get_model():
-    global _model
-    if _model is None:
-        _model = SentenceTransformer(EMBEDDING_MODEL)
-    return _model
+    texts = [d['text'] for d in filtered]
 
-def search_corpus(collection, query, situation_type=None, limit=3):
-    model = get_model()
-    
-    # Embed the query
-    query_embedding = model.encode([query])[0].tolist()
-    
-    # Build filter if situation_type is specified
-    where_filter = None
-    if situation_type and situation_type in ['condolence', 'apology', 'difficult_news', 'reconnection', 'eulogy']:
-        where_filter = {"type": {"$eq": situation_type}}
-    
-    # Search ChromaDB
     try:
-        results = collection.query(
-            query_embeddings=[query_embedding],
-            n_results=min(limit, collection.count()),
-            where=where_filter,
-            include=['documents', 'metadatas', 'distances']
-        )
+        vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2))
+        matrix = vectorizer.fit_transform(texts + [query])
+        scores = cosine_similarity(matrix[-1], matrix[:-1])[0]
+
+        top_indices = np.argsort(scores)[::-1][:limit]
+
+        results = []
+        for i in top_indices:
+            if scores[i] > 0.05:  # minimum relevance threshold
+                results.append({
+                    'text': filtered[i]['text'],
+                    'similarity': round(float(scores[i]), 3),
+                    'metadata': {
+                        'type': filtered[i].get('type', ''),
+                        'relationship': filtered[i].get('relationship', ''),
+                        'tone': filtered[i].get('tone', ''),
+                        'cultural_context': filtered[i].get('cultural_context', 'neutral')
+                    }
+                })
+        return results
     except Exception as e:
         print(f"Search error: {e}")
         return []
-    
-    # Format results
-    formatted = []
-    if results['documents'] and results['documents'][0]:
-        for i, doc in enumerate(results['documents'][0]):
-            similarity = 1 - results['distances'][0][i]  # Convert distance to similarity
-            if similarity > 0.2:  # Only return reasonably similar results
-                formatted.append({
-                    'text': doc,
-                    'similarity': round(similarity, 3),
-                    'metadata': results['metadatas'][0][i]
-                })
-    
-    return formatted
