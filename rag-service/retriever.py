@@ -1,39 +1,49 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
+import re
+from collections import Counter
+import math
+
+def tokenize(text):
+    return re.findall(r'\b[a-z]{3,}\b', text.lower())
+
+def tfidf_score(query_tokens, doc_tokens, all_docs_tokens):
+    doc_counter = Counter(doc_tokens)
+    scores = []
+    for term in set(query_tokens):
+        tf = doc_counter.get(term, 0) / (len(doc_tokens) + 1)
+        docs_with_term = sum(1 for d in all_docs_tokens if term in d)
+        idf = math.log((len(all_docs_tokens) + 1) / (docs_with_term + 1))
+        scores.append(tf * idf)
+    return sum(scores)
 
 def search_corpus(documents, query, situation_type=None, limit=3):
     if not documents:
         return []
 
-    # Filter by situation type if provided
     filtered = [d for d in documents if not situation_type or d.get('type') == situation_type]
     if not filtered:
-        filtered = documents  # fallback to all if filter returns nothing
+        filtered = documents
 
-    texts = [d['text'] for d in filtered]
+    query_tokens = tokenize(query)
+    all_tokens = [tokenize(d['text']) for d in filtered]
 
-    try:
-        vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2))
-        matrix = vectorizer.fit_transform(texts + [query])
-        scores = cosine_similarity(matrix[-1], matrix[:-1])[0]
+    scored = []
+    for i, doc in enumerate(filtered):
+        score = tfidf_score(query_tokens, all_tokens[i], all_tokens)
+        scored.append((score, doc))
 
-        top_indices = np.argsort(scores)[::-1][:limit]
+    scored.sort(key=lambda x: x[0], reverse=True)
 
-        results = []
-        for i in top_indices:
-            if scores[i] > 0.05:  # minimum relevance threshold
-                results.append({
-                    'text': filtered[i]['text'],
-                    'similarity': round(float(scores[i]), 3),
-                    'metadata': {
-                        'type': filtered[i].get('type', ''),
-                        'relationship': filtered[i].get('relationship', ''),
-                        'tone': filtered[i].get('tone', ''),
-                        'cultural_context': filtered[i].get('cultural_context', 'neutral')
-                    }
-                })
-        return results
-    except Exception as e:
-        print(f"Search error: {e}")
-        return []
+    return [
+        {
+            'text': doc['text'],
+            'similarity': round(score, 3),
+            'metadata': {
+                'type': doc.get('type', ''),
+                'relationship': doc.get('relationship', ''),
+                'tone': doc.get('tone', ''),
+                'cultural_context': doc.get('cultural_context', 'neutral')
+            }
+        }
+        for score, doc in scored[:limit]
+        if score > 0
+    ]
