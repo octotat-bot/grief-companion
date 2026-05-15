@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
 import API from './config';
 import Topbar from './components/Topbar';
 import LeftPanel from './components/LeftPanel';
@@ -104,15 +105,24 @@ import GlobalLoader from './components/GlobalLoader';
 
 import ProfilePage from './pages/ProfilePage';
 
+function ProtectedRoute({ children }) {
+  const { user, loading } = useAuth();
+  
+  if (loading) return <GlobalLoader />;
+  if (!user) return <Navigate to="/auth" replace />;
+  
+  return children;
+}
+
 export default function App() {
   return (
     <>
       <GlobalLoader />
       <Routes>
-      <Route path="/" element={<MainApp />} />
-      <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/" element={<ProtectedRoute><MainApp /></ProtectedRoute>} />
+      <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
       <Route path="/auth" element={<AuthPage />} />
-      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
     </Routes>
     </>
   );
